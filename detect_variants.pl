@@ -251,7 +251,7 @@ if($modeInput eq 'RNA/DNA'){
 elsif($modeInput eq 'RNA/RNA'){
 	
 	#preprocess for tumor input
-	my $inputResource = "Tumor";
+	my $inputResource_T = "Tumor";
 	
 	#check bam file index
 	my $tumorBamIndex = $tumorInput;	
@@ -274,18 +274,18 @@ elsif($modeInput eq 'RNA/RNA'){
 		exit;
 	}
 	
-	RNAPreProcessParallel($outDir, $tumorInput, $inputResource);
-	my $tumorInputMutect = "$outDir/reAligned_$inputResource.bam";
+	RNAPreProcessParallel($outDir, $tumorInput, $inputResource_T);
+	my $tumorInputMutect = "$outDir/reAligned_$inputResource_T.bam";
 	
 	#preprocess for normal input
-	$inputResource = "Normal";
+	my $inputResource_N = "Normal";
 	my $normal_ID_string = `$samtools view -H $normalInput | grep SM: | head -1`;
 	unless ($normal_ID_string =~ /ID\:/){
 		print "Error: Can't find sample ID in your input $normalInput, please use gatk AddOrReplaceReadGroups to add sample ID. \n";
 		exit;
 	}
-	RNAPreProcessParallel($outDir, $normalInput, $inputResource);
-	my $normalInputMutect = "$outDir/reAligned_$inputResource.bam";
+	RNAPreProcessParallel($outDir, $normalInput, $inputResource_N);
+	my $normalInputMutect = "$outDir/reAligned_$inputResource_N.bam";
 		
 	#1st variant detection
 	my $variationIDInput = $idInput . "_first";
@@ -306,7 +306,7 @@ elsif($modeInput eq 'RNA/RNA'){
 	
 	#2nd variant detection	
 	$variationIDInput = $idInput . "_final";
-	my $tumorInputMutectReAlign = "$outDir/reAligned_hisat2_$inputResource.bam";
+	my $tumorInputMutectReAlign = "$outDir/reAligned_hisat2_$inputResource_T.bam";
 	variantsCalling($tumorInputMutectReAlign,$normalInputMutect,$variationIDInput,$outDir,$fastaReference);
 	system("rm -r $outDir/*bedSplit*");
 }
