@@ -369,7 +369,7 @@ close VAL;
 
 #machine learning filter
 my $mc_out_file = "$outDir/$idInput\_mc_outputs.txt";
-system("python3 /app/stacking_model.py $out_file $mc_out_file");
+system("python3 /app/IMAPR/stacking_model.py $out_file $mc_out_file");
 
 my %mc;
 open(MC, "$mc_out_file") or die "Cannot open $mc_out_file for reading: $!\n";
