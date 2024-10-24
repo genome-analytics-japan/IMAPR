@@ -22,10 +22,10 @@ normalizedtrainInput.loc[:, columns_to_normalize] = normalized_data
 
 Input = pd.read_csv(inputFile,sep="\t",index_col=0)
 
-best_random = joblib.load('/app/IMAPR/randomForest.joblib')
-best_xgb = joblib.load('/app/IMAPR/XGboost.joblib')
-best_mlp = joblib.load('/app/IMAPR/mlp.joblib')
-second = joblib.load('/app/IMAPR/second.joblib')
+best_random = joblib.load('/app/IMAPR/lib/randomForest.joblib')
+best_xgb = joblib.load('/app/IMAPR/lib/XGboost.joblib')
+best_mlp = joblib.load('/app/IMAPR/lib/mlp.joblib')
+second = joblib.load('/app/IMAPR/lib/second.joblib')
 
 nInput = Input.shape[0]
 secondInput = zeros((nInput, 3))
