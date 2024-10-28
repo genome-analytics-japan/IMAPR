@@ -17,7 +17,13 @@ unless ((
 		$input =~ /-ID\t/
 		&& $input =~ /-O\t/
 		&& $input =~ /-R\t/
-		
+
+		# input_dv_files. finalVCF, firstVCF, bed_file, bam
+		&& $input =~ /-fnvcf\t/
+		&& $input =~ /-fivcf\t/
+		&& $input =~ /-bedf\t/
+		&& $input =~ /-bamf\t/
+
 		#tools
 		&& $input =~ /-samtools\t/
 		&& $input =~ /-bcftools\t/
@@ -123,6 +129,25 @@ my $bcftools = '.';
 if ($input =~ /-bcftools\t(\S+)/){
 	$bcftools = $1;
 }
+# input_dv_files
+my $finalVCF = '.';
+if ($input =~ /-fnvcf\t(\S+)/){
+	$finalVCF = $1;
+}
+my $firstVCF = '.';
+if ($input =~ /-fivcf\t(\S+)/){
+	$firstVCF = $1;
+}
+my $bed_file = '.';
+if ($input =~ /-bedf\t(\S+)/){
+	$bed_file = $1;
+}
+my $bam = '.';
+if ($input =~ /-bamf\t(\S+)/){
+	$bam = $1;
+}
+
+
 
 #################################################################################################################
 print "##################################################################################################################################################\n";
@@ -187,8 +212,8 @@ print "$end_time_str Time Period: ", $first_epoch, "\n";
 print "##################################################################################################################################################\n";
 
 ################################Filter variants################################
-my $finalVCF = "$outDir/$idInput\_final_Variants.vcf";
-my $firstVCF = "$outDir/$idInput\_first_Variants.vcf";
+# my $finalVCF = "$outDir/$idInput\_final_Variants.vcf";
+# my $firstVCF = "$outDir/$idInput\_first_Variants.vcf";
 my $filterVCF = "$outDir/$idInput\_filter_Variants.vcf";
 
 #Read Mutect2 variants calling results
@@ -214,7 +239,7 @@ while(<IN>){
 close(IN);
 
 #update bed file
-my $bed_file = "$outDir/$idInput\_final_Variants.bed";
+# my $bed_file = "$outDir/$idInput\_final_Variants.bed";
 my $update_bed_file = "$outDir/$idInput\_update_final_Variants.bed";
 update_bed($bed_file,$update_bed_file,1,0,'mpileup');
 
@@ -223,7 +248,7 @@ $start_time_str = getTime();
 print "##################################################################################################################################################\n";
 print "$start_time_str START Samtools Variant Calling\n";
 	
-my $bam = "$outDir/reAligned_hisat2_Tumor.bam";
+# my $bam = "$outDir/reAligned_hisat2_Tumor.bam";
 my $mpileupout = "$outDir/$idInput\_mpileup.output";		
 system ("$samtools mpileup -d 1000000 -l $update_bed_file -f $fastaReference $bam -o $mpileupout 2>/dev/null");
 
