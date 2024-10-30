@@ -16,6 +16,11 @@ unless ((
 		$input =~ /-ID\t/
 		&& $input =~ /-O\t/		
 		&& $input =~ /-gtf\t/
+		&& $input =~ /-flvcf\t/
+		&& $input =~ /-mout\t/
+		&& $input =~ /-bout\t/
+		&& $input =~ /-vfasta\t/
+		&& $input =~ /-dout\t/
 		)		
 		|| $input eq '-h'){
 	print "Found missing paramters, Please use -h for help information\n";
@@ -49,6 +54,31 @@ if ($input =~ /-O\t(\S+)/){
 my $gtfFile = '.';
 if ($input =~ /-gtf\t(\S+)/){
 	$gtfFile = $1;
+}
+
+my $vcf = '.';
+if ($input =~ /-flvcf\t(\S+)/){
+	$vcf = $1;
+}
+
+my $mpileupout = '.';
+if ($input =~ /-mout\t(\S+)/){
+	$mpileupout = $1;
+}
+
+my $bcftools_outfiles = '.';
+if ($input =~ /-bout\t(\S+)/){
+	$bcftools_outfiles = $1;
+}
+
+my $variant_fasta = '.';
+if ($input =~ /-vfasta\t(\S+)/){
+	$variant_fasta = $1;
+}
+
+my $depthOut = '.';
+if ($input =~ /-dout\t(\S+)/){
+	$depthOut = $1;
 }
 
 #################################################################################################################
@@ -152,7 +182,7 @@ print VAL "C>T\tC>G\tC>A\tT>G\tT>C\tT>A\t";
 print VAL "cds\tUTR\tnc_exon\tintron\tintergenic";
 print VAL "\n";
 
-my $vcf = "$outDir/$idInput\_filter_Variants.vcf";
+# my $vcf = "$outDir/$idInput\_filter_Variants.vcf";
 my %vcf;
 open(IN, "$vcf") or die "Cannot open $vcf for reading: $!\n";
 while(<IN>){
@@ -166,10 +196,10 @@ while(<IN>){
 }
 close(IN);
 
-my $mpileupout = "$outDir/$idInput\_mpileup.output";
-my $bcftools_outfiles = "$outDir/$idInput\_bcftools.output";
-my $variant_fasta = "$outDir/$idInput\_variant_fasta.output";
-my $depthOut = "$outDir/$idInput\_depthOut.output";
+# my $mpileupout = "$outDir/$idInput\_mpileup.output";
+# my $bcftools_outfiles = "$outDir/$idInput\_bcftools.output";
+# my $variant_fasta = "$outDir/$idInput\_variant_fasta.output";
+# my $depthOut = "$outDir/$idInput\_depthOut.output";
 
 my %mpileup;
 open(IN, "$mpileupout") or die "Cannot open $mpileupout for reading: $!\n";
